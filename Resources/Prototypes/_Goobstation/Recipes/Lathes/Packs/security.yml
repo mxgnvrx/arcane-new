@@ -59,6 +59,9 @@
   parent: MedicalCybernetics
   recipes:
   - SecurityCyberneticEyes
+  # Arcane-Start
+  - BluespaceGroundingImplanter
+  # Arcane-End
 
 - type: latheRecipePack
   id: RestraintTechnology

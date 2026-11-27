@@ -1,0 +1,21 @@
+- type: entity
+  parent: BaseSubdermalImplant
+  id: BluespaceGroundingImplant
+  name: bluespace grounding implant
+  description: Grounds your bluespace signature in baseline reality, whatever the hell that means.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    whitelist:
+      components:
+      - MobState
+    implantComponents:
+    - type: BluespaceGrounding
+
+- type: entity
+  parent: BaseImplantOnlyImplanter
+  id: BluespaceGroundingImplanter
+  name: bluespace grounding implanter
+  components:
+  - type: Implanter
+    implant: BluespaceGroundingImplant

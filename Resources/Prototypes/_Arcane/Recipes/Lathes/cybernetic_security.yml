@@ -1,0 +1,11 @@
+- type: latheRecipe
+  id: BluespaceGroundingImplanter
+  result: BluespaceGroundingImplanter
+  categories:
+  - Security
+  completetime: 4
+  materials:
+    Steel: 700
+    Glass: 300
+    Plastic: 300
+    BSCrystal: 400

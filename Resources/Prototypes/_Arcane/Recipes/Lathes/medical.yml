@@ -63,3 +63,34 @@
   materials:
     Plastic: 25
     Diamond: 10
+
+- type: latheRecipe
+  id: BreathingTubeAugment
+  result: BreathingTubeAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 1000
+
+- type: latheRecipe
+  id: AntiDropAugment
+  result: AntiDropAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2400
+    Glass: 2400
+    Silver: 1600
+    Gold: 1600
+
+- type: latheRecipe
+  id: PhotonProjectorAugment
+  result: PhotonProjectorAugment
+  categories: [ Robotics ]
+  completetime: 5
+  materials:
+    Steel: 2000
+    Glass: 2000
+    Silver: 1000
+    Gold: 1000

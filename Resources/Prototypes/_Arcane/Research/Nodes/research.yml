@@ -125,6 +125,7 @@
   - StationTeleportersControlCircuitboard
   - StationTeleporterMachineCircuitboard
   - TeleporterChipBlank
+  - BluespaceGroundingImplanter
   position: -1,6
 
 - type: technology
