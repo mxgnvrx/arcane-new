@@ -1,12 +1,29 @@
+# Arcane head implant cavities work on humanoid species, including IPCs.
+# Do not change the restriction on the upstream generic augments.
 - type: entity
-  parent: SurgeryOpenCavityBase
-  id: SurgeryOpenBreathingTubeCavity
-  name: Open cavity for breathing tube
+  abstract: true
+  parent: SurgeryBase
+  id: SurgeryArcaneOpenHeadImplantCavityBase
   components:
   - type: Surgery
     requirement: SurgeryOpenIncision
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepOpenOrganSlot
   - type: SurgeryPartCondition
     parts: [ Head ]
+  - type: SurgeryOrganSlotCondition
+    inverse: true
+  - type: SurgeryBodyComponentCondition
+    whitelist:
+      components:
+      - HumanoidProfile
+
+- type: entity
+  parent: SurgeryArcaneOpenHeadImplantCavityBase
+  id: SurgeryOpenBreathingTubeCavity
+  name: Open cavity for breathing tube
+  components:
   - type: SurgeryOrganSlotCondition
     organSlot: ArcaneBreathingTube
 
@@ -29,14 +46,10 @@
     organ: ArcaneBreathingTube
 
 - type: entity
-  parent: SurgeryOpenCavityBase
+  parent: SurgeryArcaneOpenHeadImplantCavityBase
   id: SurgeryOpenAntiDropCavity
   name: Prepare cavity for anti-drop implant
   components:
-  - type: Surgery
-    requirement: SurgeryOpenIncision
-  - type: SurgeryPartCondition
-    parts: [ Head ]
   - type: SurgeryOrganSlotCondition
     organSlot: ArcaneAntiDrop
 
@@ -83,14 +96,10 @@
     organ: ArcaneBreathingTube
 
 - type: entity
-  parent: SurgeryOpenCavityBase
+  parent: SurgeryArcaneOpenHeadImplantCavityBase
   id: SurgeryOpenCnsRebooterCavity
   name: Prepare cavity for CNS rebooter
   components:
-  - type: Surgery
-    requirement: SurgeryOpenIncision
-  - type: SurgeryPartCondition
-    parts: [ Head ]
   - type: SurgeryOrganSlotCondition
     organSlot: ArcaneCnsRebooter
 

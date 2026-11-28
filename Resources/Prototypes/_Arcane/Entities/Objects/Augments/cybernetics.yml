@@ -149,3 +149,41 @@
   - type: CnsRebooter
   - type: Item
     size: Tiny
+
+- type: entity
+  parent: BaseAugmentToolPanel
+  id: AugmentPaperworkPanelFilled
+  name: paperwork tools panel augment
+  suffix: Filled
+  description: An arm panel stocked with tools for paperwork.
+  components:
+  - type: Sprite
+    state: paperwork
+  - type: Storage
+    whitelist:
+      tags:
+      - Folder
+      - Pen
+      - Lighter
+      components:
+      - HandLabeler
+      - Stamp
+      - TapeRecorder
+  - type: StorageFill
+    contents:
+    - id: Pen
+    - id: BoxFolderClipboard
+    - id: TapeRecorderFilled
+    - id: FlippoLighter
+    - id: RubberStampApproved
+    - id: RubberStampDenied
+  - type: Construction
+    graph: ArcanePaperworkPanel
+    node: filled
+
+- type: constructionGraph
+  id: ArcanePaperworkPanel
+  start: filled
+  graph:
+  - node: filled
+    entity: AugmentPaperworkPanelFilled

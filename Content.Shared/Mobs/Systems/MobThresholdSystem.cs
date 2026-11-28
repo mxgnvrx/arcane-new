@@ -364,7 +364,13 @@ public sealed partial class MobThresholdSystem : EntitySystem
             return;
 
         if (mobState.CurrentState != MobState.Dead || thresholds.AllowRevives)
-            _mobStateSystem.ChangeMobState(target, newState, mobState, origin);
+        // Arcane-Edit-Start: allow installed hardware to adjust the threshold state before its side effects.
+        {
+            var thresholdState = new MobThresholdStateEvent(newState);
+            RaiseLocalEvent(target, ref thresholdState);
+            _mobStateSystem.ChangeMobState(target, thresholdState.State, mobState, origin);
+        }
+        // Arcane-Edit-End
     }
 
     private void UpdateAlerts(EntityUid target, MobState currentMobState, MobThresholdsComponent? threshold = null,

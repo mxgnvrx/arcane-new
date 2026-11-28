@@ -4,6 +4,7 @@ using Content.Goobstation.Common.BlockTeleport;
 using Content.IntegrationTests.Tests.Interaction;
 using Content.Medical.Common.Body;
 using Content.Medical.Shared.Body;
+using Content.Medical.Shared.Surgery;
 using Content.Medical.Shared.Surgery.Conditions;
 using Content.Shared.Body;
 using Content.Shared.Hands.EntitySystems;
@@ -54,6 +55,52 @@ public sealed class CyberneticsPortTest : InteractionTest
             Assert.That(anatomy.RemoveOrgan(head.Value, implant), Is.True);
             Assert.That(bodies.GetBody(implant), Is.Null);
             Assert.That(SEntMan.HasComponent<EnabledOrganComponent>(implant), Is.False);
+        });
+    }
+
+    [TestCase("MobHuman", "BreathingTubeAugment", "ArcaneBreathingTube", "SurgeryOpenBreathingTubeCavity", "SurgeryInsertBreathingTube", "SurgeryRemoveBreathingTube")]
+    [TestCase("MobIPC", "BreathingTubeAugment", "ArcaneBreathingTube", "SurgeryOpenBreathingTubeCavity", "SurgeryInsertBreathingTube", "SurgeryRemoveBreathingTube")]
+    [TestCase("MobHuman", "AntiDropAugment", "ArcaneAntiDrop", "SurgeryOpenAntiDropCavity", "SurgeryInsertAntiDrop", "SurgeryRemoveAntiDrop")]
+    [TestCase("MobIPC", "AntiDropAugment", "ArcaneAntiDrop", "SurgeryOpenAntiDropCavity", "SurgeryInsertAntiDrop", "SurgeryRemoveAntiDrop")]
+    [TestCase("MobHuman", "CnsRebooterAugment", "ArcaneCnsRebooter", "SurgeryOpenCnsRebooterCavity", "SurgeryInsertCnsRebooter", "SurgeryRemoveCnsRebooter")]
+    [TestCase("MobIPC", "CnsRebooterAugment", "ArcaneCnsRebooter", "SurgeryOpenCnsRebooterCavity", "SurgeryInsertCnsRebooter", "SurgeryRemoveCnsRebooter")]
+    public async Task HeadImplantSurgeryConditionsFollowThePatientAndSlotState(
+        string patientId, string augmentId, string categoryId, string cavityId, string insertionId, string removalId)
+    {
+        await Server.WaitAssertion(() =>
+        {
+            var area = SEntMan.GetCoordinates(PlayerCoords);
+            var patient = SEntMan.SpawnAttachedTo(new EntProtoId(patientId), area);
+            var anatomy = SEntMan.System<BodyPartSystem>();
+            var head = SEntMan.System<BodySystem>().GetOrgan(patient, Head);
+            Assert.That(head, Is.Not.Null);
+            var surgery = SEntMan.System<SurgerySystem>();
+            var category = new ProtoId<OrganCategoryPrototype>(categoryId);
+
+            bool Valid(string id)
+            {
+                var operation = surgery.GetSingleton(new EntProtoId(id));
+                Assert.That(operation, Is.Not.Null);
+                var attempt = new SurgeryValidEvent(patient, head!.Value, SPlayer);
+                SEntMan.EventBus.RaiseLocalEvent(operation!.Value, ref attempt);
+                return !attempt.Cancelled;
+            }
+
+            Assert.That(Valid(cavityId), Is.True);
+            Assert.That(Valid(insertionId), Is.False);
+            Assert.That(Valid(removalId), Is.False);
+            Assert.That(anatomy.TryAddSlot(head!.Value, category), Is.True);
+            Assert.That(Valid(cavityId), Is.False);
+            Assert.That(Valid(insertionId), Is.True);
+            Assert.That(Valid(removalId), Is.False);
+
+            var implant = SEntMan.SpawnAttachedTo(new EntProtoId(augmentId), area);
+            Assert.That(anatomy.InsertOrgan(head.Value, implant), Is.True);
+            Assert.That(Valid(insertionId), Is.False);
+            Assert.That(Valid(removalId), Is.True);
+            Assert.That(anatomy.RemoveOrgan(head.Value, implant), Is.True);
+            Assert.That(Valid(insertionId), Is.True);
+            Assert.That(Valid(removalId), Is.False);
         });
     }
 

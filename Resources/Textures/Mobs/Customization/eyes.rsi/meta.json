@@ -19,6 +19,10 @@
 
         {
             "name":"no_eyes"
+        },
+        {
+            "name": "chitinid",
+            "directions": 4
         }
     ]
 }

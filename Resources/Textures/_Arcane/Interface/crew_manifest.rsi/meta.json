@@ -1,7 +1,7 @@
 {
     "version": 1,
-    "license": "Apache-2.0",
-    "copyright": "content_copy and check icons from Material Symbols by Google LLC (https://fonts.google.com/icons), Apache-2.0",
+    "license": "Custom",
+    "copyright": "content_copy and check icons from Material Symbols by Google LLC (https://fonts.google.com/icons), Apache-2.0 (see LICENSES/Apache-2.0.txt)",
     "size": {
         "x": 32,
         "y": 32
