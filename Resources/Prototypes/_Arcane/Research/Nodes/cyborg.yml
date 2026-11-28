@@ -232,6 +232,9 @@
   - AugmentSurgeryPanelElectronics
   - AugmentStrengthCasing
   - AugmentStrengthElectronics
+  - BreathingTubeAugment
+  - AntiDropAugment
+  - PhotonProjectorAugment
   position: -7,3
 
 - type: technology

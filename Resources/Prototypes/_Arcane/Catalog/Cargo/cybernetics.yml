@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: cargoProduct
+  id: PaperworkImplants
+  icon:
+    sprite: _Shitmed/Objects/Augments/arm.rsi
+    state: paperwork
+  product: CratePaperworkImplants
+  cost: 700
+  category: cargoproduct-category-name-medical
+  group: market

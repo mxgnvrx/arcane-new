@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: CrateMedical
+  id: CratePaperworkImplants
+  name: paperwork implant crate
+  description: Contains two stocked arm panels with tools for paperwork.
+  components:
+  - type: StorageFill
+    contents:
+    - id: AugmentPaperworkPanelFilled
+      amount: 2

@@ -56,4 +56,9 @@ public sealed partial class AutoSurgeonEntry
     /// </summary>
     [DataField]
     public EntProtoId<OrganComponent>? NewOrganProto;
+
+    // Arcane-Start: augmentation-specific devices may create the cavity they install into.
+    [DataField]
+    public bool CreateMissingSlot;
+    // Arcane-End
 }

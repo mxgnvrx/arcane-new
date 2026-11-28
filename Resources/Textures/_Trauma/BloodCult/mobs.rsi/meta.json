@@ -388,6 +388,14 @@
           0.1
         ]
       ]
-    }
+    },
+      {
+          "name": "shade_cult",
+          "directions": 4
+      },
+      {
+          "name": "shade_holy",
+          "directions": 4
+      }
   ]
 }

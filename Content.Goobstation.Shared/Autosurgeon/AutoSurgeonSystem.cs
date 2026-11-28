@@ -105,18 +105,37 @@ public sealed partial class AutoSurgeonSystem : EntitySystem
 
                 var parent = (organ, part);
                 var newPart = PredictedSpawnAtPosition(proto, coords);
-                if (_body.GetCategory(newPart) is not {} category || !_part.HasOrganSlot(parent, category))
+                // Arcane-Edit-Start: optionally open the required augment slot before implanting.
+                if (_body.GetCategory(newPart) is not {} category)
                 {
-                    // you are missing its slot sorry chud
                     PredictedDel(newPart);
                     continue;
                 }
 
+                var addedSlot = false;
+                if (!_part.HasOrganSlot(parent, category))
+                {
+                    if (!entry.CreateMissingSlot || !_part.TryAddSlot(parent, category))
+                    {
+                        PredictedDel(newPart);
+                        continue;
+                    }
+                    addedSlot = true;
+                }
+                // Arcane-Edit-End
+
                 if (_part.GetOrgan(parent, category) is {} oldPart)
                     _part.RemoveOrgan(parent, oldPart);
 
+                // Arcane-Edit-Start: don't leave a failed augmentation or an empty new slot behind.
                 if (!_part.InsertOrgan(parent, newPart))
-                    Log.Error($"{ToPrettyString(ent)} failed to install {ToPrettyString(newPart)} into {ToPrettyString(target)}!");
+                {
+                    if (addedSlot)
+                        _part.TryRemoveSlot(parent, category);
+                    PredictedDel(newPart);
+                    Log.Error($"{ToPrettyString(ent)} failed to install {proto} into {ToPrettyString(target)}!");
+                }
+                // Arcane-Edit-End
                 continue;
             }
 

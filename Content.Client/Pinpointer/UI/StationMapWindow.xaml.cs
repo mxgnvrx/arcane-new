@@ -38,6 +38,27 @@ public sealed partial class StationMapWindow : FancyWindow
         UpdateBeaconList(mapUid);
     }
 
+    // Arcane-Start: render the private tactical map overlay in its own station map window.
+    public void SetTacticalMarkers(string stationName, EntityUid? mapUid, EntityUid owner, IReadOnlyList<Vector2> allies)
+    {
+        if (NavMapScreen.MapUid != mapUid)
+        {
+            StationName.Text = stationName;
+            Set(stationName, mapUid, null);
+        }
+
+        NavMapScreen.TrackedCoordinates.Clear();
+        if (mapUid is not { } grid)
+            return;
+
+        if (_entMan.TryGetComponent<TransformComponent>(owner, out var xform) && xform.GridUid == grid)
+            NavMapScreen.TrackedCoordinates[new EntityCoordinates(owner, Vector2.Zero)] = (true, Color.Cyan);
+
+        foreach (var position in allies)
+            NavMapScreen.TrackedCoordinates[new EntityCoordinates(grid, position)] = (true, Color.LimeGreen);
+    }
+    // Arcane-End
+
     public void OnFilterChanged(string newFilter)
     {
         foreach (var button in _buttons)
